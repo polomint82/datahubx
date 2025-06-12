@@ -1,10 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Trash2, GripVertical, Play, ArrowRight, Database, Zap, Filter, FileOutput, ChevronDown, ChevronRight, Folder, X } from "lucide-react";
+import { Trash2, Database, Zap, FileOutput, X } from "lucide-react";
 import type { Dataset, Transformation } from "@shared/schema";
 
 interface TransformationFlowProps {
@@ -12,10 +8,6 @@ interface TransformationFlowProps {
   transformations: Transformation[];
   onTransformationReorder: (transformations: Transformation[]) => void;
   onTransformationDelete: (transformationId: number) => void;
-  onExecuteFlow: () => void;
-  sampleData: Record<string, any>[];
-  allDatasets?: Dataset[];
-  onDatasetChange?: (datasetId: number) => void;
 }
 
 interface FlowNode {
@@ -29,15 +21,11 @@ export function TransformationFlow({
   dataset, 
   transformations, 
   onTransformationReorder, 
-  onTransformationDelete,
-  onExecuteFlow,
-  sampleData,
-  allDatasets = [],
-  onDatasetChange
+  onTransformationDelete
 }: TransformationFlowProps) {
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
 
-  const [showSidePanel, setShowSidePanel] = useState(false);
+
   const [isDragging, setIsDragging] = useState(false);
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
   const [nodePositions, setNodePositions] = useState<Record<string, { x: number; y: number }>>({});

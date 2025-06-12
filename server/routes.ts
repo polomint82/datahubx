@@ -230,10 +230,16 @@ export class TransformationEngine {
       case 'FORMAT_DATE':
         const format = args[0] || 'YYYY-MM-DD';
         const date = new Date(value);
+        if (isNaN(date.getTime())) {
+          return value; // Return original value if invalid date
+        }
         return date.toISOString().split('T')[0]; // Simple format for demo
       case 'EXTRACT':
         const part = args[0] || 'year';
         const dateObj = new Date(value);
+        if (isNaN(dateObj.getTime())) {
+          return value; // Return original value if invalid date
+        }
         switch (part.toLowerCase()) {
           case 'year': return dateObj.getFullYear();
           case 'month': return dateObj.getMonth() + 1;
@@ -411,7 +417,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const tenant = await storage.getTenant(user.tenantId);
       if (!tenant?.awsAccessKeyId || !tenant?.awsSecretAccessKey || !tenant?.awsRegion) {
         return res.status(400).json({ 
-          message: "AWS credentials not configured. Please configure your AWS settings first." 
+          message: "AWS credentials not configured. Please configure your AWS settings in the admin panel first.",
+          code: "MISSING_AWS_CREDENTIALS"
         });
       }
 
@@ -432,13 +439,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Use streaming data loader for better performance with large files
       const streamingLoader = new StreamingDataLoader(s3Client);
       
-      const loadResult = await streamingLoader.loadDataSample(config, {
-        bucket: validatedData.bucket,
-        key: validatedData.key,
-        hasHeader: validatedData.hasHeader,
-        maxSampleRows: 1000,
-        maxPreviewRows: 100
-      });
+      let loadResult;
+      try {
+        loadResult = await streamingLoader.loadDataSample(config, {
+          bucket: validatedData.bucket,
+          key: validatedData.key,
+          hasHeader: validatedData.hasHeader,
+          maxSampleRows: 1000,
+          maxPreviewRows: 100
+        });
+      } catch (s3Error: any) {
+        // Update job status with S3 error
+        await storage.updateJobHistory(job.id, user.tenantId, {
+          status: "error",
+          details: `S3 Access Error: ${s3Error.message}. Please check your AWS credentials and file permissions.`,
+        });
+        
+        return res.status(400).json({ 
+          message: "Failed to access S3 file. Please check your AWS credentials and ensure the file exists with proper permissions.",
+          code: "S3_ACCESS_ERROR",
+          details: s3Error.message
+        });
+      }
 
       const { columns, preview, estimatedTotalRows } = loadResult;
 
@@ -632,6 +654,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = getCurrentUser(req);
       const id = parseInt(req.params.id);
       
+      // Validate ID parameter
+      if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ message: "Invalid transformation ID" });
+      }
+      
       const success = await storage.deleteTransformation(id, user.tenantId);
       if (!success) {
         return res.status(404).json({ message: "Transformation not found" });
@@ -674,8 +701,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           // Delete all but the first one
           for (let i = 1; i < transforms.length; i++) {
-            await storage.deleteTransformation(transforms[i].id, user.tenantId);
-            deletedCount++;
+            try {
+              const transformId = parseInt(transforms[i].id);
+              if (!isNaN(transformId) && transformId > 0) {
+                await storage.deleteTransformation(transformId, user.tenantId);
+                deletedCount++;
+              }
+            } catch (deleteError) {
+              console.error(`Failed to delete transformation ${transforms[i].id}:`, deleteError);
+              // Continue with other deletions
+            }
           }
         }
       }

@@ -693,10 +693,6 @@ export function DataPreview({ dataset, onClose, maxRows = 50, onDatasetChange }:
                 transformations={transformations}
                 onTransformationReorder={handleTransformationReorder}
                 onTransformationDelete={handleDeleteTransformation}
-                onExecuteFlow={handleExecuteFlow}
-                sampleData={processedData.slice(0, 5)}
-                allDatasets={[]}
-                onDatasetChange={() => {}}
               />
             ) : (
               <div className="border rounded-lg overflow-hidden">
