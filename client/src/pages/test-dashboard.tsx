@@ -8,13 +8,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
   Play, 
-  Square, 
   CheckCircle, 
   XCircle, 
   Clock, 
   AlertTriangle,
   RefreshCw,
-  Database,
   Upload,
   Settings,
   FileText,

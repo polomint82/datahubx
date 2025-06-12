@@ -1,55 +1,9 @@
 version: "1.0"
-
-# Qodana configuration for TypeScript/Node.js project
-linter: jetbrains/qodana-js:latest
-
-# Project settings
-projectJDK: "NodeJS"
-
-# Include paths for analysis
-include:
-  - client/src/
-  - server/
-  - shared/
-
-# Exclude paths from analysis
-exclude:
-  - node_modules/
-  - dist/
-  - build/
-  - .next/
-  - coverage/
-  - .replit
-  - attached_assets/
-  - client/src/components/ui/  # Generated shadcn components
-
-# License configuration
-licenseRules:
-  - keys: ["CheckDependencyLicenses"]
-    prohibited: ["AGPL-3.0", "GPL-2.0", "GPL-3.0"]
-
-# Profile settings
 profile:
-  name: "Data Platform Analysis"
-  path: ".qodana/profiles/default.xml"
-
-# Script to run before analysis
-bootstrap: |
-  npm install
-
-# Analysis scope
-php:
-  version: "8.1"
-
-# Report settings
-report:
-  sarif: true
-  
-# Baseline configuration
-baseline: ".qodana/qodana.sarif.json"
-
-# Fail threshold - analysis will fail if issues exceed this
-failThreshold: 100
-
-# IDE settings
-ide: WebStorm
+  name: qodana.starter
+exclude:
+  - name: All
+    paths:
+      - client
+      - server
+      - shared

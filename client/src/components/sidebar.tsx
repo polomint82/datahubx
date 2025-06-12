@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Database, Gauge, Upload, ServerCog, Table, History, Settings, FolderOpen, Users, Menu, X, AlignJustify, Map, ChevronDown, ChevronRight, Clock, TestTube } from "lucide-react";
+import { Gauge, ServerCog, Table, Settings, FolderOpen, Users, Menu, Map, ChevronDown, ChevronRight, Clock, TestTube, FileSearch } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -18,6 +18,7 @@ const navigation = [
   { name: "Scheduled Jobs", href: "/jobs", icon: Clock },
   { name: "Team", href: "/team", icon: Users },
   { name: "Test Dashboard", href: "/tests", icon: TestTube },
+  { name: "SARIF Analyzer", href: "/sarif", icon: FileSearch },
   { name: "Admin", href: "/admin", icon: Settings },
 ];
 

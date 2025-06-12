@@ -15,9 +15,7 @@ import {
   X, 
   Send, 
   Flag, 
-  AlertTriangle, 
   CheckCircle, 
-  Clock,
   Edit,
   Trash2,
   MoreHorizontal

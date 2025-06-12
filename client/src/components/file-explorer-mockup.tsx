@@ -15,11 +15,9 @@ import {
   Database,
   Download,
   Share,
-  Search,
   ChevronLeft,
   ChevronRight,
   RotateCcw,
-  Home,
   HardDrive,
   Cloud,
   ChevronDown

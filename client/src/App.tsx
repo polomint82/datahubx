@@ -18,6 +18,7 @@ import Team from "@/pages/team";
 import { FileExplorerMockup } from "@/components/file-explorer-mockup";
 import Pipelines from "@/pages/pipelines";
 import TestDashboard from "@/pages/test-dashboard";
+import { SarifAnalyzer } from "@/pages/sarif-analyzer";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -40,6 +41,7 @@ function Router() {
             <Route path="/admin" component={Admin} />
             <Route path="/files" component={FileExplorer} />
             <Route path="/tests" component={TestDashboard} />
+            <Route path="/sarif" component={SarifAnalyzer} />
             <Route path="/mockup" component={FileExplorerMockup} />
             <Route component={NotFound} />
           </Switch>

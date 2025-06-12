@@ -23,7 +23,7 @@ export function TransformationFlow({
   onTransformationReorder, 
   onTransformationDelete
 }: TransformationFlowProps) {
-  const [draggedItem, setDraggedItem] = useState<number | null>(null);
+
 
 
   const [isDragging, setIsDragging] = useState(false);
@@ -105,7 +105,6 @@ export function TransformationFlow({
     e.stopPropagation();
     
     if (svgRef.current) {
-      const rect = svgRef.current.getBoundingClientRect();
       const svgPoint = svgRef.current.createSVGPoint();
       svgPoint.x = e.clientX;
       svgPoint.y = e.clientY;
@@ -131,7 +130,6 @@ export function TransformationFlow({
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDragging && draggedNodeId && svgRef.current) {
-      const rect = svgRef.current.getBoundingClientRect();
       const svgPoint = svgRef.current.createSVGPoint();
       svgPoint.x = e.clientX;
       svgPoint.y = e.clientY;
@@ -218,131 +216,11 @@ export function TransformationFlow({
     }
   }, [handleWheel]);
 
-  // Apply single transformation to value for preview
-  const applyTransformationToValue = (expression: string, value: any): any => {
-    try {
-      // Convert to string for processing
-      const strValue = String(value || '');
-      const numValue = parseFloat(strValue) || 0;
-
-      // String Functions
-      if (expression.includes('UPPERCASE(')) {
-        return strValue.toUpperCase();
-      }
-      if (expression.includes('LOWERCASE(')) {
-        return strValue.toLowerCase();
-      }
-      if (expression.includes('TRIM(')) {
-        return strValue.trim();
-      }
-      if (expression.includes('LENGTH(')) {
-        return strValue.length;
-      }
-      if (expression.includes('LEFT(')) {
-        const match = expression.match(/LEFT\([^,]+,\s*"?(\d+)"?\)/);
-        if (match) {
-          const length = parseInt(match[1]);
-          return strValue.substring(0, length);
-        }
-      }
-      if (expression.includes('RIGHT(')) {
-        const match = expression.match(/RIGHT\([^,]+,\s*"?(\d+)"?\)/);
-        if (match) {
-          const length = parseInt(match[1]);
-          return strValue.substring(Math.max(0, strValue.length - length));
-        }
-      }
-      if (expression.includes('SUBSTRING(')) {
-        const match = expression.match(/SUBSTRING\([^,]+,\s*"?(\d+)"?(?:,\s*"?(\d+)"?)?\)/);
-        if (match) {
-          const start = parseInt(match[1]) - 1; // Convert to 0-based
-          const length = match[2] ? parseInt(match[2]) : undefined;
-          return length ? strValue.substring(start, start + length) : strValue.substring(start);
-        }
-      }
-      if (expression.includes('REPLACE(')) {
-        const match = expression.match(/REPLACE\([^,]+,\s*"([^"]*)",\s*"([^"]*)"\)/);
-        if (match) {
-          const search = match[1];
-          const replace = match[2];
-          return strValue.replace(new RegExp(search, 'g'), replace);
-        }
-      }
-
-      // Mathematical Functions
-      if (expression.includes('ABS(')) {
-        return Math.abs(numValue);
-      }
-      if (expression.includes('ROUND(')) {
-        const match = expression.match(/ROUND\([^,]+(?:,\s*(\d+))?\)/);
-        const decimals = match && match[1] ? parseInt(match[1]) : 0;
-        return Number(numValue.toFixed(decimals));
-      }
-
-      // Date Functions
-      if (expression.includes('FORMAT_DATE(')) {
-        const match = expression.match(/FORMAT_DATE\([^,]+,\s*"([^"]*)"\)/);
-        if (match) {
-          const format = match[1];
-          const date = new Date(strValue);
-          if (!isNaN(date.getTime())) {
-            if (format === 'YYYY-MM-DD') {
-              return date.toISOString().split('T')[0];
-            }
-            if (format === 'MM/DD/YYYY') {
-              return date.toLocaleDateString('en-US');
-            }
-          }
-        }
-        return strValue;
-      }
-
-      // Conditional Functions
-      if (expression.includes('IF(')) {
-        const match = expression.match(/IF\(([^,]+),\s*"([^"]*)",\s*"([^"]*)"\)/);
-        if (match) {
-          const condition = match[1];
-          const trueValue = match[2];
-          const falseValue = match[3];
-          // Simple condition evaluation (can be expanded)
-          if (condition.includes('=')) {
-            const [left, right] = condition.split('=').map(s => s.trim().replace(/"/g, ''));
-            return strValue === right ? trueValue : falseValue;
-          }
-        }
-      }
-
-      return value;
-    } catch (error) {
-      console.error('Error applying transformation:', error);
-      return value;
-    }
-  };
 
 
 
-  const handleDragStart = (index: number) => {
-    setDraggedItem(index);
-  };
 
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-    if (draggedItem === null) return;
 
-    const updatedTransformations = [...transformations];
-    const draggedTransformation = updatedTransformations[draggedItem];
-    updatedTransformations.splice(draggedItem, 1);
-    updatedTransformations.splice(index, 0, draggedTransformation);
-
-    // Update sequence numbers
-    const reorderedTransformations = updatedTransformations.map((t, i) => ({
-      ...t,
-      sequenceNumber: i + 1
-    }));
-
-    onTransformationReorder(reorderedTransformations);
-    setDraggedItem(null);
-  };
 
 
 

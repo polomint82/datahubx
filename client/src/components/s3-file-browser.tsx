@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +42,7 @@ export function S3FileBrowser({
   // Fetch S3 buckets
   const { data: buckets = [], isLoading: bucketsLoading } = useQuery({
     queryKey: ["/api/s3/buckets"],
-  });
+  }) as { data: any[], isLoading: boolean };
 
   // Fetch objects in current bucket/path
   const { data: objects = [], isLoading: objectsLoading, refetch } = useQuery({
@@ -145,13 +145,13 @@ export function S3FileBrowser({
         
         {bucketsLoading ? (
           <div className="text-center py-8">Loading buckets...</div>
-        ) : buckets.length === 0 ? (
+        ) : (buckets as any[]).length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             No S3 buckets found. Check your AWS credentials.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {buckets.map((bucket: any) => (
+            {(buckets as any[]).map((bucket: any) => (
               <Card 
                 key={bucket.name} 
                 className="cursor-pointer hover:shadow-md transition-shadow"

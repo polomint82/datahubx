@@ -12,7 +12,6 @@ import {
   Type,
   Hash,
   Calendar,
-  Calculator,
   FileText,
   Filter,
   RotateCcw,

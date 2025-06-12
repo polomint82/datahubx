@@ -14,12 +14,11 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Plus, Play, Pause, Trash2, Clock, Calendar, FileText, Database, Settings, Eye, Edit, MoreHorizontal, FolderOpen, Check, List, ChevronDown, ChevronRight, Grid3X3 } from "lucide-react";
-// import { S3FileBrowser } from "@/components/s3-file-browser";
+import { Plus, Play, Pause, Trash2, Clock, Calendar, FileText, Database, Settings, Eye, Edit, MoreHorizontal, FolderOpen, List, ChevronDown, ChevronRight, Grid3X3 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import type { Dataset } from "@shared/schema";
+
 
 interface Job {
   id: number;

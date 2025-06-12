@@ -1,0 +1,313 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Qodana for JS",
+          "version": "2024.1.5",
+          "informationUri": "https://www.jetbrains.com/qodana/",
+          "rules": [
+            {
+              "id": "TypeScriptUnresolvedFunction",
+              "name": "TypeScript unresolved function",
+              "shortDescription": {
+                "text": "Unresolved function or method"
+              },
+              "fullDescription": {
+                "text": "This inspection reports unresolved function or method calls in TypeScript code."
+              },
+              "helpUri": "https://www.jetbrains.com/help/webstorm/typescript-unresolved-function.html"
+            },
+            {
+              "id": "JSUnusedGlobalSymbols",
+              "name": "Unused global symbol",
+              "shortDescription": {
+                "text": "Unused global symbol"
+              },
+              "fullDescription": {
+                "text": "This inspection reports unused global symbols in JavaScript and TypeScript files."
+              },
+              "helpUri": "https://www.jetbrains.com/help/webstorm/unused-global-symbols.html"
+            },
+            {
+              "id": "TypeScriptValidateTypes",
+              "name": "TypeScript type validation",
+              "shortDescription": {
+                "text": "Type validation error"
+              },
+              "fullDescription": {
+                "text": "This inspection validates TypeScript types and reports type mismatches."
+              },
+              "helpUri": "https://www.jetbrains.com/help/webstorm/typescript-validate-types.html"
+            },
+            {
+              "id": "JSHint",
+              "name": "JSHint",
+              "shortDescription": {
+                "text": "JSHint code quality issue"
+              },
+              "fullDescription": {
+                "text": "This inspection reports code quality issues detected by JSHint."
+              },
+              "helpUri": "https://jshint.com/docs/"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "TypeScriptUnresolvedFunction",
+          "level": "error",
+          "message": {
+            "text": "Unresolved function or method 'nonExistentFunction()'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/src/components/transformation-flow.tsx"
+                },
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 12,
+                  "endLine": 45,
+                  "endColumn": 30,
+                  "snippet": {
+                    "text": "nonExistentFunction()"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "JSUnusedGlobalSymbols",
+          "level": "warning",
+          "message": {
+            "text": "Unused import 'ArrowRight'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/src/components/transformation-flow.tsx"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 25,
+                  "endLine": 7,
+                  "endColumn": 35,
+                  "snippet": {
+                    "text": "ArrowRight"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TypeScriptValidateTypes",
+          "level": "error",
+          "message": {
+            "text": "Type 'string' is not assignable to type 'number'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "server/routes.ts"
+                },
+                "region": {
+                  "startLine": 156,
+                  "startColumn": 8,
+                  "endLine": 156,
+                  "endColumn": 20,
+                  "snippet": {
+                    "text": "const id = \"123\""
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "JSUnusedGlobalSymbols",
+          "level": "warning",
+          "message": {
+            "text": "Unused parameter 'event'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/src/pages/datasets.tsx"
+                },
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 32,
+                  "endLine": 89,
+                  "endColumn": 37,
+                  "snippet": {
+                    "text": "event"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "JSHint",
+          "level": "warning",
+          "message": {
+            "text": "'console' is not defined"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "server/test-endpoints.ts"
+                },
+                "region": {
+                  "startLine": 234,
+                  "startColumn": 7,
+                  "endLine": 234,
+                  "endColumn": 14,
+                  "snippet": {
+                    "text": "console.error"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TypeScriptValidateTypes",
+          "level": "error",
+          "message": {
+            "text": "Property 'nonExistentProperty' does not exist on type 'Dataset'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/src/components/data-preview.tsx"
+                },
+                "region": {
+                  "startLine": 123,
+                  "startColumn": 15,
+                  "endLine": 123,
+                  "endColumn": 35,
+                  "snippet": {
+                    "text": "dataset.nonExistentProperty"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "JSUnusedGlobalSymbols",
+          "level": "note",
+          "message": {
+            "text": "Unused variable 'tempVar'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "shared/schema.ts"
+                },
+                "region": {
+                  "startLine": 67,
+                  "startColumn": 9,
+                  "endLine": 67,
+                  "endColumn": 16,
+                  "snippet": {
+                    "text": "tempVar"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TypeScriptUnresolvedFunction",
+          "level": "error",
+          "message": {
+            "text": "Cannot find module 'non-existent-module' or its corresponding type declarations"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "server/index.ts"
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 12,
+                  "endColumn": 45,
+                  "snippet": {
+                    "text": "import something from 'non-existent-module';"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "JSHint",
+          "level": "info",
+          "message": {
+            "text": "Missing semicolon"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/src/lib/utils.ts"
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 25,
+                  "endLine": 23,
+                  "endColumn": 25,
+                  "snippet": {
+                    "text": "return result"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TypeScriptValidateTypes",
+          "level": "warning",
+          "message": {
+            "text": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/src/pages/transformations.tsx"
+                },
+                "region": {
+                  "startLine": 78,
+                  "startColumn": 15,
+                  "endLine": 78,
+                  "endColumn": 35,
+                  "snippet": {
+                    "text": "someFunction(maybeString)"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
